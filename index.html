@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistema Solar T\u00e9rmico \u00b7 ENP4</title>
+<title>Sistema Solar Térmico · ENP4</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
 :root {
   --bg:        #040d18;
   --bg2:       #071525;
@@ -16,18 +16,16 @@
   --gold:      #ffb020;
   --gold2:     #ff7a00;
   --cyan:      #00d4ff;
-  --cyan2:     #0099cc;
   --hot:       #ff4444;
   --hot2:      #ff8800;
   --cold:      #22bbee;
-  --cold2:     #0066aa;
   --text:      #cce4f5;
   --text-dim:  #4a7a9a;
   --green:     #00e5a0;
 }
-
+ 
 html { scroll-behavior: smooth; }
-
+ 
 body {
   background: var(--bg);
   color: var(--text);
@@ -35,36 +33,28 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
-/* \u2500\u2500 BACKGROUND GRID \u2500\u2500 */
+ 
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,180,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,180,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(0,180,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,255,0.025) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
 }
-
-/* \u2500\u2500 SCANLINE OVERLAY \u2500\u2500 */
+ 
 body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0px,
-    transparent 3px,
-    rgba(0,0,0,0.06) 3px,
-    rgba(0,0,0,0.06) 4px
-  );
+  background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px);
   pointer-events: none;
   z-index: 0;
 }
-
+ 
 .page {
   position: relative;
   z-index: 1;
@@ -72,8 +62,8 @@ body::after {
   margin: 0 auto;
   padding: 0 28px 60px;
 }
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 HERO HEADER \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+ 
+/* HERO */
 .hero {
   padding: 48px 0 32px;
   display: grid;
@@ -81,567 +71,573 @@ body::after {
   align-items: end;
   gap: 24px;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 36px;
+  margin-bottom: 32px;
   animation: fadeDown 0.8s ease both;
 }
-
-@keyframes fadeDown {
-  from { opacity:0; transform:translateY(-20px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-
+@keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeUp   { from{opacity:0;transform:translateY(16px)}  to{opacity:1;transform:translateY(0)} }
+@keyframes blink    { 0%,100%{opacity:1} 50%{opacity:0.3} }
+ 
 .hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(0,212,255,0.08);
-  border: 1px solid rgba(0,212,255,0.25);
-  border-radius: 4px;
-  padding: 4px 12px;
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--cyan);
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 4px; padding: 4px 12px;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--cyan);
   margin-bottom: 14px;
 }
 .hero-badge::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 8px var(--green);
+  content:''; width:6px; height:6px; border-radius:50%;
+  background:var(--green); box-shadow:0 0 8px var(--green);
   animation: blink 1.5s ease-in-out infinite;
 }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
 h1 {
   font-family: 'Orbitron', monospace;
-  font-size: clamp(24px, 4vw, 44px);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.5px;
-  color: #fff;
+  font-size: clamp(22px,4vw,42px);
+  font-weight: 900; line-height: 1.05; color: #fff;
 }
-h1 em {
-  font-style: normal;
-  background: linear-gradient(90deg, var(--gold), var(--gold2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero-sub {
-  margin-top: 10px;
-  font-size: 14px;
-  color: var(--text-dim);
-  letter-spacing: 0.5px;
-}
-
-.hero-right {
-  text-align: right;
-}
-.hero-right .school {
-  font-family: 'Orbitron', monospace;
-  font-size: 11px;
-  color: var(--cyan);
-  letter-spacing: 2px;
-  opacity: 0.8;
-}
-.hero-right .group {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 4px;
-}
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 KPI STRIP \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+h1 em { font-style:normal; background:linear-gradient(90deg,var(--gold),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.hero-sub { margin-top:10px; font-size:14px; color:var(--text-dim); }
+.hero-right { text-align:right; }
+.hero-right .school { font-family:'Orbitron',monospace; font-size:11px; color:var(--cyan); letter-spacing:2px; opacity:.8; }
+.hero-right .group  { font-size:11px; color:var(--text-dim); margin-top:4px; }
+ 
+/* KPI STRIP */
 .kpi-strip {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  margin-bottom: 32px;
-  animation: fadeUp 0.8s 0.15s ease both;
+  display: grid; grid-template-columns: repeat(6,1fr); gap: 10px;
+  margin-bottom: 28px; animation: fadeUp 0.8s 0.15s ease both;
 }
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(16px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@media (max-width: 900px) { .kpi-strip { grid-template-columns: repeat(3,1fr); } }
-@media (max-width: 520px) { .kpi-strip { grid-template-columns: repeat(2,1fr); } }
-
+@media(max-width:900px){.kpi-strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.kpi-strip{grid-template-columns:repeat(2,1fr)}}
+ 
 .kpi {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px 16px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.25s, transform 0.2s;
+  background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  padding:14px 16px; position:relative; overflow:hidden;
+  transition:border-color .25s, transform .2s;
 }
-.kpi:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-2px); }
-.kpi::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), var(--gold2));
-  opacity: 0.7;
-}
-.kpi-val {
-  font-family: 'Orbitron', monospace;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1;
-}
-.kpi-unit {
-  font-size: 9px;
-  color: var(--cyan);
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-.kpi-label {
-  font-size: 10px;
-  color: var(--text-dim);
-  margin-top: 6px;
-  line-height: 1.3;
-}
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 DIAGRAM SECTION \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.kpi:hover{border-color:rgba(0,212,255,.35);transform:translateY(-2px)}
+.kpi::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2));opacity:.7}
+.kpi-val  { font-family:'Orbitron',monospace; font-size:22px; font-weight:700; color:var(--gold); line-height:1; }
+.kpi-unit { font-size:9px; color:var(--cyan); letter-spacing:1.5px; text-transform:uppercase; margin-top:2px; }
+.kpi-label{ font-size:10px; color:var(--text-dim); margin-top:6px; line-height:1.3; }
+ 
+/* SECTION TITLE */
 .section-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-family:'Orbitron',monospace; font-size:10px; letter-spacing:4px;
+  text-transform:uppercase; color:var(--cyan); margin-bottom:14px;
+  display:flex; align-items:center; gap:12px;
 }
-.section-title::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+ 
+/* DIAGRAM SHELL */
 .diagram-shell {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 4px;
-  position: relative;
-  animation: fadeUp 0.8s 0.3s ease both;
-  box-shadow: 0 0 60px rgba(0,100,180,0.15), inset 0 0 40px rgba(0,30,60,0.5);
+  background:var(--panel); border:1px solid var(--border); border-radius:14px;
+  padding:4px; position:relative; animation:fadeUp .8s .3s ease both;
+  box-shadow:0 0 60px rgba(0,100,180,.15),inset 0 0 40px rgba(0,30,60,.5);
 }
-
-/* Corner decorations */
-.diagram-shell::before, .diagram-shell::after {
-  content: '';
-  position: absolute;
-  width: 20px; height: 20px;
-  border-color: var(--cyan);
-  border-style: solid;
-  opacity: 0.5;
+.diagram-shell::before,.diagram-shell::after{
+  content:'';position:absolute;width:20px;height:20px;
+  border-color:var(--cyan);border-style:solid;opacity:.5;
 }
-.diagram-shell::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; border-radius: 2px 0 0 0; }
-.diagram-shell::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; border-radius: 0 0 2px 0; }
-
+.diagram-shell::before{top:8px;left:8px;border-width:2px 0 0 2px;border-radius:2px 0 0 0}
+.diagram-shell::after {bottom:8px;right:8px;border-width:0 2px 2px 0;border-radius:0 0 2px 0}
+ 
 .diagram-inner {
-  background: linear-gradient(145deg, #060f1e 0%, #030810 100%);
-  border-radius: 11px;
-  padding: 28px 20px 20px;
-  overflow: hidden;
-  position: relative;
+  background:linear-gradient(145deg,#060f1e 0%,#030810 100%);
+  border-radius:11px; padding:24px 16px 16px; overflow:hidden; position:relative;
 }
-
-/* Subtle radial glow behind diagram */
-.diagram-inner::before {
-  content: '';
-  position: absolute;
-  top: 30%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px; height: 300px;
-  background: radial-gradient(ellipse, rgba(0,100,200,0.08) 0%, transparent 70%);
-  pointer-events: none;
+.diagram-inner::before{
+  content:'';position:absolute;top:30%;left:50%;
+  transform:translate(-50%,-50%);width:600px;height:300px;
+  background:radial-gradient(ellipse,rgba(0,100,200,.07) 0%,transparent 70%);
+  pointer-events:none;
 }
-
-/* \u2500\u2500 PIPE ANIMATIONS \u2500\u2500 */
-@keyframes flowRight { to { stroke-dashoffset: -28; } }
-@keyframes flowLeft  { to { stroke-dashoffset: 28; } }
-@keyframes flowDown  { to { stroke-dashoffset: -28; } }
-@keyframes flowUp    { to { stroke-dashoffset: 28; } }
-
-.pipe-hot  { stroke-dasharray: 10 6; animation: flowRight 0.7s linear infinite; }
-.pipe-cold { stroke-dasharray: 10 6; animation: flowLeft  0.9s linear infinite; }
-.pipe-hot-v  { stroke-dasharray: 10 6; animation: flowDown 0.7s linear infinite; }
-.pipe-cold-v { stroke-dasharray: 10 6; animation: flowUp   0.9s linear infinite; }
-
-@keyframes sunPulse {
-  0%,100% { r: 30; opacity: 0.9; }
-  50% { r: 33; opacity: 1; }
+.main-svg{width:100%;height:auto;display:block}
+ 
+/* PIPE ANIMATIONS */
+@keyframes flowR { to{stroke-dashoffset:-28} }
+@keyframes flowL { to{stroke-dashoffset: 28} }
+@keyframes flowD { to{stroke-dashoffset:-28} }
+@keyframes flowU { to{stroke-dashoffset: 28} }
+@keyframes sunP  { 0%,100%{r:30;opacity:.9} 50%{r:34;opacity:1} }
+@keyframes glowP { 0%,100%{opacity:.3} 50%{opacity:.65} }
+@keyframes spin  { to{transform:rotate(360deg)} }
+ 
+.ph  {stroke-dasharray:10 6;animation:flowR .7s linear infinite}
+.pc  {stroke-dasharray:10 6;animation:flowL .9s linear infinite}
+.phv {stroke-dasharray:10 6;animation:flowD .7s linear infinite}
+.pcv {stroke-dasharray:10 6;animation:flowU .9s linear infinite}
+.sun-core{animation:sunP 2.5s ease-in-out infinite}
+.sun-glow{animation:glowP 2.5s ease-in-out infinite}
+.imp{transform-origin:55px 50px;animation:spin 1.2s linear infinite}
+ 
+/* CYCLE STEPS */
+.cycle-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-top:28px;animation:fadeUp .8s .45s ease both;
 }
-@keyframes glowPulse {
-  0%,100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
+@media(max-width:800px){.cycle-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.cycle-grid{grid-template-columns:1fr}}
+ 
+.step-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:10px;
+  padding:16px;display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .25s,background .25s;
 }
-@keyframes spinImpeller {
-  to { transform: rotate(360deg); }
+.step-card:hover{border-color:rgba(0,212,255,.3);background:rgba(10,40,65,.9)}
+.step-num{font-family:'Orbitron',monospace;font-size:20px;font-weight:900;line-height:1;min-width:28px}
+.step-content h4{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--cyan);margin-bottom:5px}
+.step-content p{font-size:11.5px;color:var(--text-dim);line-height:1.6}
+.step-content p strong{color:var(--text)}
+ 
+/* BOTTOM GRID */
+.bottom-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;
+  margin-top:20px;animation:fadeUp .8s .6s ease both;
 }
-@keyframes stepFade {
-  0%,100% { opacity: 0.7; }
-  50% { opacity: 1; }
+@media(max-width:760px){.bottom-grid{grid-template-columns:1fr}}
+ 
+.info-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px}
+.info-card h3{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.info-row:last-child{border-bottom:none}
+.info-row .lbl{color:var(--text-dim)}
+.info-row .val{color:var(--text);font-weight:500;font-family:'Orbitron',monospace;font-size:11px}
+.info-row .val.hot{color:var(--hot)}
+.info-row .val.cold{color:var(--cold)}
+.info-row .val.gold{color:var(--gold)}
+.info-row .val.green{color:var(--green)}
+ 
+/* LEGEND */
+.legend-bar{
+  display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:16px;
+  padding:14px 18px;background:rgba(0,0,0,.3);border:1px solid var(--border);
+  border-radius:8px;font-size:11px;color:var(--text-dim);
 }
-
-.sun-core { animation: sunPulse 2.5s ease-in-out infinite; }
-.sun-glow  { animation: glowPulse 2.5s ease-in-out infinite; }
-
-.impeller {
-  transform-origin: 490px 400px;
-  animation: spinImpeller 1.2s linear infinite;
+.leg{display:flex;align-items:center;gap:8px}
+.leg-line{width:28px;height:3px;border-radius:2px}
+ 
+/* FOOTER */
+footer{
+  margin-top:36px;padding-top:20px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:10px;font-size:10px;color:var(--text-dim);
+  animation:fadeUp .8s .7s ease both;
 }
-
-/* Main SVG */
-.main-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 CYCLE STEPS \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
-.cycle-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 28px;
-  animation: fadeUp 0.8s 0.45s ease both;
-}
-@media (max-width: 800px) { .cycle-grid { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 480px) { .cycle-grid { grid-template-columns: 1fr; } }
-
-.step-card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  transition: border-color 0.25s, background 0.25s;
-}
-.step-card:hover {
-  border-color: rgba(0,212,255,0.3);
-  background: rgba(10,40,65,0.9);
-}
-.step-num {
-  font-family: 'Orbitron', monospace;
-  font-size: 20px;
-  font-weight: 900;
-  line-height: 1;
-  min-width: 28px;
-}
-.step-content h4 {
-  font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 5px;
-}
-.step-content p {
-  font-size: 11.5px;
-  color: var(--text-dim);
-  line-height: 1.6;
-}
-.step-content p strong { color: var(--text); }
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 BOTTOM GRID \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
-.bottom-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-top: 20px;
-  animation: fadeUp 0.8s 0.6s ease both;
-}
-@media (max-width: 760px) { .bottom-grid { grid-template-columns: 1fr; } }
-
-.info-card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-}
-.info-card h3 {
-  font-family: 'Orbitron', monospace;
-  font-size: 9px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 12px;
-}
-.info-row:last-child { border-bottom: none; }
-.info-row .lbl { color: var(--text-dim); }
-.info-row .val { color: var(--text); font-weight: 500; font-family: 'Orbitron', monospace; font-size: 11px; }
-.info-row .val.hot { color: var(--hot); }
-.info-row .val.cold { color: var(--cold); }
-.info-row .val.gold { color: var(--gold); }
-.info-row .val.green { color: var(--green); }
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 LEGEND BAR \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
-.legend-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin-top: 18px;
-  padding: 14px 18px;
-  background: rgba(0,0,0,0.3);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 11px;
-  color: var(--text-dim);
-}
-.leg {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.leg-line {
-  width: 28px;
-  height: 3px;
-  border-radius: 2px;
-}
-
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 FOOTER \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
-footer {
-  margin-top: 36px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.5px;
-  animation: fadeUp 0.8s 0.7s ease both;
-}
-footer .members {
-  font-family: 'Orbitron', monospace;
-  font-size: 9px;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-}
-footer .tag {
-  font-family: 'Orbitron', monospace;
-  color: var(--cyan);
-  font-size: 9px;
-  letter-spacing: 2px;
-}
+footer .members{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1px;color:var(--text-dim)}
+footer .tag{font-family:'Orbitron',monospace;color:var(--cyan);font-size:9px;letter-spacing:2px}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <!-- \u2550\u2550 HEADER \u2550\u2550 -->
-  <header class="hero">
-    <div>
-      <div class="hero-badge">Sistema Activo \u00b7 Circulaci\u00f3n Forzada</div>
-      <h1>Sistema T\u00e9rmico<br><em>Solar para Alberca</em></h1>
-      <p class="hero-sub">Termodin\u00e1mica aplicada \u00b7 Calentador solar de placa plana \u00b7 Ciudad de M\u00e9xico</p>
-    </div>
-    <div class="hero-right">
-      <div class="school">ENP PLANTEL 4 \u00b7 UNAM</div>
-      <div class="group">603 \u00b7 F\u00edsica</div>
-    </div>
-  </header>
-
-  <!-- \u2550\u2550 KPI STRIP \u2550\u2550 -->
-  <div class="kpi-strip">
-    <div class="kpi">
-      <div class="kpi-val">93</div>
-      <div class="kpi-unit">Colectores</div>
-      <div class="kpi-label">MS 1.9 FS \u00b7 1.91 m\u00b2 c/u</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-val">178</div>
-      <div class="kpi-unit">m\u00b2 captaci\u00f3n</div>
-      <div class="kpi-label">\u00c1rea total efectiva</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-val">45,209</div>
-      <div class="kpi-unit">MJ totales</div>
-      <div class="kpi-label">Q = m\u00b7Cp\u00b7\u0394T</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-val">18\u00b0C</div>
-      <div class="kpi-unit">\u0394T</div>
-      <div class="kpi-label">De 10\u00b0C a 28\u00b0C</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-val">52%</div>
-      <div class="kpi-unit">Eficiencia</div>
-      <div class="kpi-label">~10 MJ/m\u00b2/d\u00eda</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-val">5.5</div>
-      <div class="kpi-unit">kWh/m\u00b2/d\u00eda</div>
-      <div class="kpi-label">Irradiaci\u00f3n CDMX</div>
-    </div>
+ 
+<!-- HEADER -->
+<header class="hero">
+  <div>
+    <div class="hero-badge">Sistema Activo · Circulación Forzada</div>
+    <h1>Sistema Térmico<br><em>Solar para Alberca</em></h1>
+    <p class="hero-sub">Termodinámica aplicada · Calentador solar de placa plana · Ciudad de México</p>
   </div>
-
-  <!-- \u2550\u2550 DIAGRAM \u2550\u2550 -->
-  <div class="section-title">Diagrama del Sistema \u00b7 Ciclo Completo</div>
-
-  <div class="diagram-shell">
-    <div class="diagram-inner">
-      <svg class="main-svg" viewBox="0 0 1100 560" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <!-- Gradients -->
-          <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#020a14"/>
-            <stop offset="100%" stop-color="#040d1c"/>
-          </linearGradient>
-          <radialGradient id="gSun" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"  stop-color="#ffe566"/>
-            <stop offset="45%" stop-color="#ffb020" stop-opacity="0.8"/>
-            <stop offset="100%" stop-color="#ff6000" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="gCollector" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1a4a6a"/>
-            <stop offset="100%" stop-color="#071828"/>
-          </linearGradient>
-          <linearGradient id="gTank" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#3a6580"/>
-            <stop offset="100%" stop-color="#0f2535"/>
-          </linearGradient>
-          <linearGradient id="gPump" cx="40%" cy="30%" r="60%" id="gPump">
-            <stop offset="0%" stop-color="#507090"/>
-            <stop offset="100%" stop-color="#152535"/>
-          </linearGradient>
-          <radialGradient id="gPumpR" cx="40%" cy="30%" r="60%">
-            <stop offset="0%" stop-color="#507090"/>
-            <stop offset="100%" stop-color="#152535"/>
-          </radialGradient>
-          <linearGradient id="gHex" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#2a4a5a"/>
-            <stop offset="100%" stop-color="#0a1e2e"/>
-          </linearGradient>
-          <linearGradient id="gPool" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#0d3f5f"/>
-            <stop offset="100%" stop-color="#061828"/>
-          </linearGradient>
-          <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1a7aaa"/>
-            <stop offset="100%" stop-color="#0d4a70"/>
-          </linearGradient>
-          <linearGradient id="gThermostat" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1a3045"/>
-            <stop offset="100%" stop-color="#0a1825"/>
-          </linearGradient>
-          <!-- Glows -->
-          <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <filter id="fSoftGlow" x="-80%" y="-80%" width="260%" height="260%">
-            <feGaussianBlur stdDeviation="10" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <filter id="fSmall" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="2.5" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-          <!-- Markers -->
-          <marker id="mHot" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
-            <polygon points="0,0 7,3.5 0,7" fill="#ff4444"/>
-          </marker>
-          <marker id="mCold" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
-            <polygon points="0,0 7,3.5 0,7" fill="#22bbee"/>
-          </marker>
-          <marker id="mHotUp" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto">
-            <polygon points="0,7 3.5,0 7,7" fill="#ff4444"/>
-          </marker>
-          <marker id="mColdUp" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto">
-            <polygon points="0,7 3.5,0 7,7" fill="#22bbee"/>
-          </marker>
-        </defs>
-
-        <!-- BG -->
-        <rect width="1100" height="560" fill="url(#gSky)" rx="10"/>
-
-        <!-- Subtle grid -->
-        <g opacity="0.04">
-          <line x1="0" y1="140" x2="1100" y2="140" stroke="#fff" stroke-width="1"/>
-          <line x1="0" y1="280" x2="1100" y2="280" stroke="#fff" stroke-width="1"/>
-          <line x1="0" y1="420" x2="1100" y2="420" stroke="#fff" stroke-width="1"/>
-          <line x1="220" y1="0" x2="220" y2="560" stroke="#fff" stroke-width="1"/>
-          <line x1="440" y1="0" x2="440" y2="560" stroke="#fff" stroke-width="1"/>
-          <line x1="660" y1="0" x2="660" y2="560" stroke="#fff" stroke-width="1"/>
-          <line x1="880" y1="0" x2="880" y2="560" stroke="#fff" stroke-width="1"/>
+  <div class="hero-right">
+    <div class="school">ENP PLANTEL 4 · UNAM</div>
+    <div class="group">603 · Física</div>
+  </div>
+</header>
+ 
+<!-- KPI -->
+<div class="kpi-strip">
+  <div class="kpi"><div class="kpi-val">93</div><div class="kpi-unit">Colectores</div><div class="kpi-label">MS 1.9 FS · 1.91 m² c/u</div></div>
+  <div class="kpi"><div class="kpi-val">178</div><div class="kpi-unit">m² captación</div><div class="kpi-label">Área total efectiva</div></div>
+  <div class="kpi"><div class="kpi-val">45,209</div><div class="kpi-unit">MJ totales</div><div class="kpi-label">Q = m·Cp·ΔT</div></div>
+  <div class="kpi"><div class="kpi-val">18°C</div><div class="kpi-unit">ΔT</div><div class="kpi-label">De 10°C a 28°C</div></div>
+  <div class="kpi"><div class="kpi-val">52%</div><div class="kpi-unit">Eficiencia</div><div class="kpi-label">~10 MJ/m²/día útil</div></div>
+  <div class="kpi"><div class="kpi-val">5.5</div><div class="kpi-unit">kWh/m²/día</div><div class="kpi-label">Irradiación CDMX</div></div>
+</div>
+ 
+<!-- DIAGRAM -->
+<div class="section-title">Diagrama del Sistema · Ciclo Completo</div>
+<div class="diagram-shell">
+  <div class="diagram-inner">
+    <svg class="main-svg" viewBox="0 0 1100 560" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#020a14"/><stop offset="100%" stop-color="#040d1c"/></linearGradient>
+        <radialGradient id="gSun" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffe566"/><stop offset="45%" stop-color="#ffb020" stop-opacity=".8"/><stop offset="100%" stop-color="#ff6000" stop-opacity="0"/></radialGradient>
+        <linearGradient id="gColl" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a4a6a"/><stop offset="100%" stop-color="#071828"/></linearGradient>
+        <linearGradient id="gTank" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a6580"/><stop offset="100%" stop-color="#0f2535"/></linearGradient>
+        <radialGradient id="gPump" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#507090"/><stop offset="100%" stop-color="#152535"/></radialGradient>
+        <linearGradient id="gHex" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a4a5a"/><stop offset="100%" stop-color="#0a1e2e"/></linearGradient>
+        <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a7aaa"/><stop offset="100%" stop-color="#0d4a70"/></linearGradient>
+        <linearGradient id="gThermo" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3045"/><stop offset="100%" stop-color="#0a1825"/></linearGradient>
+        <filter id="fG"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="fSG"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="fS"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <marker id="mH" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#ff4444"/></marker>
+        <marker id="mC" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0,0 7,3.5 0,7" fill="#22bbee"/></marker>
+        <marker id="mHu" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto"><polygon points="0,7 3.5,0 7,7" fill="#22bbee"/></marker>
+      </defs>
+ 
+      <!-- BG -->
+      <rect width="1100" height="560" fill="url(#gSky)" rx="10"/>
+      <!-- Grid -->
+      <g opacity=".04">
+        <line x1="0" y1="140" x2="1100" y2="140" stroke="#fff" stroke-width="1"/>
+        <line x1="0" y1="280" x2="1100" y2="280" stroke="#fff" stroke-width="1"/>
+        <line x1="0" y1="420" x2="1100" y2="420" stroke="#fff" stroke-width="1"/>
+        <line x1="220" y1="0" x2="220" y2="560" stroke="#fff" stroke-width="1"/>
+        <line x1="440" y1="0" x2="440" y2="560" stroke="#fff" stroke-width="1"/>
+        <line x1="660" y1="0" x2="660" y2="560" stroke="#fff" stroke-width="1"/>
+        <line x1="880" y1="0" x2="880" y2="560" stroke="#fff" stroke-width="1"/>
+      </g>
+ 
+      <!-- SUN -->
+      <g transform="translate(990,80)">
+        <circle class="sun-glow" r="70" fill="url(#gSun)" opacity=".35"/>
+        <circle class="sun-glow" r="48" fill="url(#gSun)" opacity=".5"/>
+        <circle class="sun-core" cx="0" cy="0" r="30" fill="#ffe566" filter="url(#fSG)"/>
+        <g opacity=".7">
+          <line x1="0" y1="-44" x2="0" y2="-54" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="0" y1="44" x2="0" y2="54" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-44" y1="0" x2="-54" y2="0" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="44" y1="0" x2="54" y2="0" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="-31" y1="-31" x2="-39" y2="-39" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+          <line x1="31" y1="-31" x2="39" y2="-39" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+          <line x1="-31" y1="31" x2="-39" y2="39" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+          <line x1="31" y1="31" x2="39" y2="39" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
         </g>
-
-        <!-- \u2550\u2550 SUN \u2550\u2550 -->
-        <g transform="translate(990,75)">
-          <circle class="sun-glow" r="65" fill="url(#gSun)" opacity="0.4"/>
-          <circle class="sun-glow" r="45" fill="url(#gSun)" opacity="0.5"/>
-          <circle class="sun-core" cx="0" cy="0" r="30" fill="#ffe566" filter="url(#fSoftGlow)"/>
-          <!-- Rays -->
-          <g opacity="0.7">
-            <line x1="0" y1="-42" x2="0" y2="-52" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="0" y1="42" x2="0" y2="52" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="-42" y1="0" x2="-52" y2="0" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="42" y1="0" x2="52" y2="0" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="-29" y1="-29" x2="-37" y2="-37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
-            <line x1="29" y1="-29" x2="37" y2="-37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
-            <line x1="-29" y1="29" x2="-37" y2="37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
-            <line x1="29" y1="29" x2="37" y2="37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
-          </g>
-          <text y="55" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#ffb020" letter-spacing="1" opacity="0.8">5.5 kWh/m\u00b2/d\u00eda</text>
+        <text y="58" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#ffb020" letter-spacing="1" opacity=".8">5.5 kWh/m²/día</text>
+      </g>
+      <!-- Radiation dashes -->
+      <line x1="956" y1="95" x2="770" y2="118" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity=".5"/>
+      <line x1="948" y1="105" x2="700" y2="122" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity=".35"/>
+      <line x1="938" y1="115" x2="620" y2="126" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity=".25"/>
+      <text x="838" y="103" font-family="DM Sans,sans-serif" font-size="9" fill="#ffb020" opacity=".6" transform="rotate(-5,838,103)">Radiación Solar →</text>
+ 
+      <!-- ROOF -->
+      <rect x="30" y="158" width="1040" height="14" fill="#0d2035" rx="2"/>
+      <rect x="30" y="156" width="1040" height="4" fill="#1a3550" rx="1"/>
+      <text x="42" y="150" font-family="Orbitron,monospace" font-size="9" fill="#4a7a9a" letter-spacing="2">AZOTEA · ENP4</text>
+ 
+      <!-- COLLECTOR BANK - support -->
+      <rect x="240" y="132" width="700" height="5" rx="2" fill="#1a3a55"/>
+      <line x1="270" y1="137" x2="270" y2="158" stroke="#1a3a55" stroke-width="3"/>
+      <line x1="480" y1="137" x2="480" y2="158" stroke="#1a3a55" stroke-width="3"/>
+      <line x1="700" y1="137" x2="700" y2="158" stroke="#1a3a55" stroke-width="3"/>
+      <line x1="910" y1="137" x2="910" y2="158" stroke="#1a3a55" stroke-width="3"/>
+ 
+      <!-- 7 panels -->
+      <g transform="translate(245,50)">
+        <text x="340" y="-9" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#4a8aaa" letter-spacing="1.5">93 colectores MS 1.9 FS · inclinación 15-20° · orientación Sur</text>
+        <!-- Helper macro via repetition -->
+        <g transform="skewX(-7)">
+          <!-- p1 --><rect x="0"   y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="11"  y1="0" x2="11"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="22"  y1="0" x2="22"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="33"  y1="0" x2="33"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="44"  y1="0" x2="44"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="55"  y1="0" x2="55"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="66"  y1="0" x2="66"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="77"  y1="0" x2="77"  y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <rect x="2" y="2" width="78" height="74" rx="3" fill="none" stroke="#006688" stroke-width=".6" opacity=".5"/>
+ 
+          <!-- p2 --><rect x="94"  y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="105" y1="0" x2="105" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="116" y1="0" x2="116" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="127" y1="0" x2="127" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="138" y1="0" x2="138" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="149" y1="0" x2="149" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="160" y1="0" x2="160" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="171" y1="0" x2="171" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+ 
+          <!-- p3 --><rect x="188" y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="199" y1="0" x2="199" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="210" y1="0" x2="210" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="221" y1="0" x2="221" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="232" y1="0" x2="232" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="243" y1="0" x2="243" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="254" y1="0" x2="254" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="265" y1="0" x2="265" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+ 
+          <!-- p4 --><rect x="282" y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="293" y1="0" x2="293" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="304" y1="0" x2="304" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="315" y1="0" x2="315" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="326" y1="0" x2="326" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="337" y1="0" x2="337" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="348" y1="0" x2="348" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="359" y1="0" x2="359" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+ 
+          <!-- p5 --><rect x="376" y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="387" y1="0" x2="387" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="398" y1="0" x2="398" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="409" y1="0" x2="409" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="420" y1="0" x2="420" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="431" y1="0" x2="431" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="442" y1="0" x2="442" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="453" y1="0" x2="453" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+ 
+          <!-- p6 --><rect x="470" y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="481" y1="0" x2="481" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="492" y1="0" x2="492" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="503" y1="0" x2="503" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="514" y1="0" x2="514" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="525" y1="0" x2="525" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="536" y1="0" x2="536" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="547" y1="0" x2="547" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+ 
+          <!-- p7 --><rect x="564" y="0" width="82" height="78" rx="4" fill="url(#gColl)" stroke="#1e6090" stroke-width="1.2"/>
+          <line x1="575" y1="0" x2="575" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="586" y1="0" x2="586" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="597" y1="0" x2="597" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="608" y1="0" x2="608" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="619" y1="0" x2="619" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="630" y1="0" x2="630" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
+          <line x1="641" y1="0" x2="641" y2="78" stroke="#0a4a6a" stroke-width=".9" opacity=".7"/>
         </g>
-
-        <!-- Radiation arrows -->
-        <line x1="956" y1="92" x2="770" y2="115" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.5"/>
-        <line x1="950" y1="100" x2="700" y2="118" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.38"/>
-        <line x1="942" y1="110" x2="620" y2="122" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.28"/>
-        <text x="830" y="100" font-family="DM Sans,sans-serif" font-size="9" fill="#ffb020" opacity="0.6" transform="rotate(-5,830,100)">Radiaci\u00f3n Solar \u2192</text>
-
-        <!-- \u2550\u2550 ROOF LINE \u2550\u2550 -->
-        <rect x="30" y="155" width="1040" height="14" fill="#0d2035" rx="2"/>
-        <rect x="30" y="154" width="1040" height="4" fill="#1a3550" rx="1"/>
-        <text x="40" y="148" font-family="Orbitron,monospace" font-size="9" fill="#4a7a9a" letter-spacing="2">AZOTEA \u00b7 ENP4</text>
-
-        <!-- \u2550\u2550 SOLAR COLLECTORS BANK \u2550\u2550 -->
-        <!-- Support rail -->
-        <rect x="240" y="130" width="700" height="5" rx="2" fill="#1a3a55"/>
-        <!-- Support legs -->
-        <line x1="270" y1="135" x2="270" y2="155" stroke="#1a3a55" stroke-width="3"/>
-        <line x1="480" y1="135" x2="480" y2="155" stroke="#1a3a55" stroke-width="3"/>
-        <line x1="700" y1="135" x2="700" y2="155" stroke="#1a3a55" stroke-width="3"/>
-        <line x1="910" y1="135" x2="910" y2="155" stroke="#1a3a55" stroke-width="3"/>
-
-        <!-- 7 Collector panels (tilted illusion via skew) -->
-        <g transform="translate(245,48)">
-          <!-- Each panel: rect + internal tubes -->
-          <!-- Panel 1 -->
-          <g transform="skewX(-8)">
-            <rect x="0" y="0" width="82" height="78" rx="4" fill="url(#gCollector)" stroke="#1e6090" stroke-width="1.2"/>
-            <rect x="3" y="3" width="76" height="72" rx="2" fill="none" stroke="#0077aa" stroke-width="0.6" opacity="0.5"/>
-            <line x1="10" y1="0" x2="10" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <line x1="20" y1="0" x2="20" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <line x1="30" y1="0" x2="30" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <line x1="40" y1="0" x2="40" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <line x1="50" y1="0" x2="50" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <line x1="60" y1="0" x2="60" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <line x1="70" y1="0" x2="70" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
-            <!-- Absorber sheen -->
-            <rect x="3" y="3" width="76" height="18" rx="1" fill="#1a88bb" opacity="0.15"/>
+      </g>
+ 
+      <!-- Sensor T1 -->
+      <circle cx="840" cy="158" r="6" fill="#ff4444" filter="url(#fS)"/>
+      <rect x="850" y="149" width="75" height="16" rx="3" fill="rgba(0,0,0,.75)"/>
+      <text x="887" y="161" text-anchor="middle" font-family="Orbitron,monospace" font-size="8" fill="#ff4444">SENSOR T1</text>
+ 
+      <!-- STORAGE TANK x=55,y=185 -->
+      <g transform="translate(55,188)">
+        <rect x="0" y="0" width="110" height="148" rx="10" fill="url(#gTank)" stroke="#2a5a7a" stroke-width="1.5"/>
+        <ellipse cx="55" cy="0" rx="55" ry="12" fill="#3a6580"/>
+        <ellipse cx="55" cy="0" rx="55" ry="12" fill="none" stroke="#2a5a7a" stroke-width="1.5"/>
+        <ellipse cx="55" cy="148" rx="55" ry="12" fill="#1a3a50"/>
+        <rect x="-6" y="25" width="122" height="7" rx="3" fill="#050e18" opacity=".7"/>
+        <rect x="-6" y="65" width="122" height="7" rx="3" fill="#050e18" opacity=".7"/>
+        <rect x="-6" y="105" width="122" height="7" rx="3" fill="#050e18" opacity=".7"/>
+        <rect x="4" y="46" width="102" height="98" rx="6" fill="#0d3f60" opacity=".8"/>
+        <ellipse cx="55" cy="46" rx="51" ry="8" fill="#1a6a90" opacity=".9"/>
+        <text x="55" y="-22" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#00d4ff" letter-spacing="1.5">DEPÓSITO</text>
+        <text x="55" y="-11" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#4a8aaa">Acero Inox 304</text>
+        <circle cx="55" cy="138" r="5" fill="#22bbee" filter="url(#fS)"/>
+        <text x="55" y="167" text-anchor="middle" font-family="Orbitron,monospace" font-size="7.5" fill="#22bbee">SENSOR T2</text>
+      </g>
+ 
+      <!-- THERMOSTAT x=220,y=272 -->
+      <g transform="translate(220,272)">
+        <rect x="0" y="0" width="130" height="68" rx="8" fill="url(#gThermo)" stroke="#1a4060" stroke-width="1.5"/>
+        <rect x="0" y="0" width="130" height="3" rx="2" fill="#00d4ff" opacity=".5"/>
+        <text x="65" y="17" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#00d4ff" letter-spacing="1.5">TERMOSTATO</text>
+        <text x="65" y="27" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#4a8aaa">Diferencial</text>
+        <circle cx="22" cy="46" r="5" fill="#ff4444" opacity=".9" filter="url(#fS)"/>
+        <text x="30" y="50" font-family="DM Sans,sans-serif" font-size="8.5" fill="#ff9999">ON: ΔT ≥ 5°C</text>
+        <circle cx="22" cy="60" r="5" fill="#22bbee" opacity=".7"/>
+        <text x="30" y="64" font-family="DM Sans,sans-serif" font-size="8.5" fill="#7acce0">OFF: ΔT &lt; 2°C</text>
+        <line x1="130" y1="34" x2="178" y2="34" stroke="#1a4060" stroke-width="1" stroke-dasharray="4,3"/>
+      </g>
+ 
+      <!-- PUMP x=430,y=352 center=485,402 -->
+      <g transform="translate(430,352)">
+        <circle cx="55" cy="50" r="46" fill="url(#gPump)" stroke="#2a6080" stroke-width="2"/>
+        <circle cx="55" cy="50" r="34" fill="#0a1e30" stroke="#1a4560" stroke-width="1"/>
+        <g class="imp">
+          <path d="M55,50 L55,20 Q63,35 55,50Z" fill="#2a7090" opacity=".9"/>
+          <path d="M55,50 L55,20 Q63,35 55,50Z" fill="#2a7090" opacity=".9" transform="rotate(72,55,50)"/>
+          <path d="M55,50 L55,20 Q63,35 55,50Z" fill="#2a7090" opacity=".9" transform="rotate(144,55,50)"/>
+          <path d="M55,50 L55,20 Q63,35 55,50Z" fill="#2a7090" opacity=".9" transform="rotate(216,55,50)"/>
+          <path d="M55,50 L55,20 Q63,35 55,50Z" fill="#2a7090" opacity=".9" transform="rotate(288,55,50)"/>
+        </g>
+        <circle cx="55" cy="50" r="8" fill="#3a8aaa" stroke="#4aaacc" stroke-width="1"/>
+        <text x="55" y="108" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#00d4ff" letter-spacing="1">BOMBA</text>
+        <text x="55" y="119" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#4a8aaa">Circulación Forzada</text>
+      </g>
+ 
+      <!-- HEAT EXCHANGER x=308,y=200 -->
+      <g transform="translate(308,200)">
+        <rect x="0" y="0" width="142" height="112" rx="8" fill="url(#gHex)" stroke="#2a5060" stroke-width="1.5"/>
+        <line x1="18" y1="8" x2="18" y2="104" stroke="#224466" stroke-width="2"/>
+        <line x1="28" y1="8" x2="28" y2="104" stroke="#662222" stroke-width="2" opacity=".7"/>
+        <line x1="38" y1="8" x2="38" y2="104" stroke="#224466" stroke-width="2"/>
+        <line x1="48" y1="8" x2="48" y2="104" stroke="#662222" stroke-width="2" opacity=".7"/>
+        <line x1="58" y1="8" x2="58" y2="104" stroke="#224466" stroke-width="2"/>
+        <line x1="68" y1="8" x2="68" y2="104" stroke="#662222" stroke-width="2" opacity=".7"/>
+        <line x1="78" y1="8" x2="78" y2="104" stroke="#224466" stroke-width="2"/>
+        <line x1="88" y1="8" x2="88" y2="104" stroke="#662222" stroke-width="2" opacity=".7"/>
+        <line x1="98" y1="8" x2="98" y2="104" stroke="#224466" stroke-width="2"/>
+        <line x1="108" y1="8" x2="108" y2="104" stroke="#662222" stroke-width="2" opacity=".7"/>
+        <line x1="118" y1="8" x2="118" y2="104" stroke="#224466" stroke-width="2"/>
+        <line x1="128" y1="8" x2="128" y2="104" stroke="#662222" stroke-width="2" opacity=".7"/>
+        <rect x="0" y="0" width="142" height="112" rx="8" fill="none" stroke="#2a5060" stroke-width="1.5"/>
+        <text x="71" y="-12" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#00d4ff" letter-spacing="1">INTERCAMBIADOR</text>
+        <text x="71" y="-2" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#4a8aaa">de Calor</text>
+        <text x="-4" y="32" text-anchor="end" font-family="DM Sans,sans-serif" font-size="8" fill="#ff6644">→ Caliente</text>
+        <text x="-4" y="86" text-anchor="end" font-family="DM Sans,sans-serif" font-size="8" fill="#22aadd">← Frío</text>
+        <text x="146" y="38" font-family="DM Sans,sans-serif" font-size="8" fill="#22aadd">→ Pool</text>
+        <text x="146" y="86" font-family="DM Sans,sans-serif" font-size="8" fill="#ff6644">← Pool</text>
+      </g>
+ 
+      <!-- POOL x=612,y=184 -->
+      <g transform="translate(612,184)">
+        <rect x="0" y="0" width="418" height="232" rx="8" fill="#081828" stroke="#1a4060" stroke-width="2"/>
+        <rect x="5" y="5" width="408" height="222" rx="6" fill="url(#gWater)"/>
+        <line x1="5" y1="46" x2="413" y2="46"   stroke="#fff" stroke-width="1" opacity=".11"/>
+        <line x1="5" y1="87" x2="413" y2="87"   stroke="#fff" stroke-width="1" opacity=".11"/>
+        <line x1="5" y1="128" x2="413" y2="128"  stroke="#fff" stroke-width="1" opacity=".11"/>
+        <line x1="5" y1="169" x2="413" y2="169"  stroke="#fff" stroke-width="1" opacity=".11"/>
+        <line x1="5" y1="210" x2="413" y2="210"  stroke="#fff" stroke-width="1" opacity=".11"/>
+        <path d="M10,22 Q70,14 140,22 Q210,30 280,22 Q350,14 408,22" stroke="rgba(255,255,255,.18)" stroke-width="1.5" fill="none"/>
+        <path d="M10,64 Q90,56 180,64 Q270,72 360,64 Q395,60 410,64" stroke="rgba(255,255,255,.10)" stroke-width="1" fill="none"/>
+        <!-- Cover -->
+        <rect x="5" y="5" width="408" height="16" rx="4" fill="#0a2235" opacity=".75"/>
+        <text x="209" y="17" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#22bbee" opacity=".9">Cubierta térmica de polietileno azul oscuro</text>
+        <!-- Labels -->
+        <text x="209" y="120" text-anchor="middle" font-family="Orbitron,monospace" font-size="24" fill="rgba(255,255,255,.15)" letter-spacing="4">ALBERCA</text>
+        <text x="209" y="142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="14" fill="rgba(255,255,255,.22)">600,000 L</text>
+        <!-- Temp badge -->
+        <g transform="translate(134,157)">
+          <rect x="0" y="0" width="150" height="42" rx="6" fill="rgba(0,0,0,.5)" stroke="rgba(0,212,255,.2)" stroke-width="1"/>
+          <text x="37" y="17" text-anchor="middle" font-family="Orbitron,monospace" font-size="17" fill="#22bbee">10°C</text>
+          <text x="75" y="28" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="20" fill="rgba(255,255,255,.25)">→</text>
+          <text x="113" y="17" text-anchor="middle" font-family="Orbitron,monospace" font-size="17" fill="#ff8844">28°C</text>
+          <text x="75" y="39" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#4a8aaa">ΔT = 18°C · 30 días</text>
+        </g>
+      </g>
+      <!-- Pool label above -->
+      <text x="821" y="178" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" fill="#00d4ff" letter-spacing="2">PISCINA OLÍMPICA · ENP4</text>
+ 
+      <!-- ══ PIPES (insulation layer, then colored, then animated) ══ -->
+      <!-- HOT: collector outlet x=820 down to y=200, left to x=450, into hex -->
+      <line x1="820" y1="158" x2="820" y2="200" stroke="rgba(180,90,30,.22)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="820" y1="200" x2="450" y2="200" stroke="rgba(180,90,30,.22)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="820" y1="158" x2="820" y2="200" stroke="#ff4444" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mH)"/>
+      <line class="phv" x1="820" y1="158" x2="820" y2="200" stroke="#ff7777" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="820" y1="200" x2="450" y2="200" stroke="#ff4444" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mH)"/>
+      <line class="ph" x1="820" y1="200" x2="450" y2="200" stroke="#ff7777" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="450" y1="200" x2="450" y2="222" stroke="#ff4444" stroke-width="3.5" stroke-linecap="round"/>
+      <line class="phv" x1="450" y1="200" x2="450" y2="222" stroke="#ff7777" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+ 
+      <!-- COLD primary: hex y=312 → x=165, down to y=402, right to pump x=430 -->
+      <line x1="308" y1="292" x2="165" y2="292" stroke="rgba(20,80,160,.25)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="165" y1="292" x2="165" y2="402" stroke="rgba(20,80,160,.25)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="165" y1="402" x2="430" y2="402" stroke="rgba(20,80,160,.25)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="308" y1="292" x2="165" y2="292" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mC)"/>
+      <line class="pc" x1="308" y1="292" x2="165" y2="292" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="165" y1="292" x2="165" y2="402" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round"/>
+      <line class="pcv" x1="165" y1="292" x2="165" y2="402" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="165" y1="402" x2="430" y2="402" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mH)"/>
+      <line class="pc" x1="165" y1="402" x2="430" y2="402" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+ 
+      <!-- Pump outlet up to collector return -->
+      <line x1="485" y1="352" x2="485" y2="178" stroke="rgba(20,80,160,.25)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="485" y1="178" x2="280" y2="178" stroke="rgba(20,80,160,.25)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="280" y1="178" x2="280" y2="158" stroke="rgba(20,80,160,.25)" stroke-width="13" stroke-linecap="round"/>
+      <line x1="485" y1="352" x2="485" y2="178" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mHu)"/>
+      <line class="pcv" x1="485" y1="352" x2="485" y2="178" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="485" y1="178" x2="280" y2="178" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mC)"/>
+      <line class="pc" x1="485" y1="178" x2="280" y2="178" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <line x1="280" y1="178" x2="280" y2="158" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round"/>
+      <line class="pcv" x1="280" y1="178" x2="280" y2="158" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+ 
+      <!-- HOT secondary: hex → pool y=258 -->
+      <line x1="450" y1="258" x2="612" y2="258" stroke="#ff8844" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mH)"/>
+      <line class="ph" x1="450" y1="258" x2="612" y2="258" stroke="#ffaa66" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+ 
+      <!-- COLD secondary: pool → hex y=314 -->
+      <line x1="612" y1="314" x2="450" y2="314" stroke="#22bbee" stroke-width="3.5" stroke-linecap="round" marker-end="url(#mC)"/>
+      <line class="pc" x1="612" y1="314" x2="450" y2="314" stroke="#55ddff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+ 
+      <!-- Pipe labels -->
+      <rect x="585" y="243" width="92" height="14" rx="3" fill="rgba(0,0,0,.75)"/>
+      <text x="631" y="254" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="#ff9966">→ Agua Caliente</text>
+      <rect x="475" y="299" width="92" height="14" rx="3" fill="rgba(0,0,0,.75)"/>
+      <text x="521" y="310" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="#55ddff">← Retorno Frío</text>
+      <rect x="530" y="186" width="90" height="14" rx="3" fill="rgba(0,0,0,.75)"/>
+      <text x="575" y="197" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="#ff7777">Fluido Caliente</text>
+      <rect x="310" y="163" width="82" height="14" rx="3" fill="rgba(0,0,0,.75)"/>
+      <text x="351" y="174" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8.5" fill="#55ddff">Fluido Frío</text>
+      <rect x="590" y="186" width="84" height="12" rx="2" fill="rgba(0,0,0,.6)"/>
+      <text x="632" y="196" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#c07830">Cu · 385 W/m·K</text>
+ 
+      <!-- STEP CIRCLES -->
+      <g filter="url(#fS)">
+        <circle cx="550" cy="88" r="13" fill="#cc2222" stroke="#ff4444" stroke-width="1.5"/>
+        <text x="550" y="93" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">1</text>
+ 
+        <circle cx="820" cy="180" r="13" fill="#bb4400" stroke="#ff6600" stroke-width="1.5"/>
+        <text x="820" y="185" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">2</text>
+ 
+        <circle cx="379" cy="258" r="13" fill="#aa7000" stroke="#ffb020" stroke-width="1.5"/>
+        <text x="379" y="263" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">3</text>
+ 
+        <circle cx="531" cy="258" r="13" fill="#aa5522" stroke="#ff8844" stroke-width="1.5"/>
+        <text x="531" y="263" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">4</text>
+ 
+        <circle cx="531" cy="314" r="13" fill="#007799" stroke="#22bbee" stroke-width="1.5"/>
+        <text x="531" y="319" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">5</text>
+ 
+        <circle cx="165" cy="268" r="13" fill="#005580" stroke="#22bbee" stroke-width="1.5"/>
+        <text x="165" y="273" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">6</text>
+ 
+        <circle cx="485" cy="402" r="13" fill="#006688" stroke="#00d4ff" stroke-width="1.5"/>
+        <text x="485" y="407" text-anchor="middle" font-family="Orbitron,monospace" font-size="10" font-weight="700" fill="#fff">7</text>
+      </g>
+ 
+      <text x="550" y="548" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#2a5a7a" letter-spacing="2">Escuela Nacional Preparatoria Plantel 4 · UNAM · Termodinámica · 603 Física</text>
+    </svg>
+  </div>
+</div>
+ 
+<!-- LEGEND -->
+<div class="legend-bar">
+  <div class="leg"><div class="leg-line" style="background:linear-gradient(90deg,#ff4444,#ff8844)"></div>Fluido caliente (circuito primario)</div>
+  <div class="leg"><div class="leg-line" style="background:linear-gradient(90deg,#22bbee,#0077aa)"></div>Fluido frío / retorno</div>
+  <div class="leg"><div class="leg-line" style="background:#ff8844"></div>Agua caliente → alberca</div>
+  <div class="leg"><div class="leg-line" style="background:#c07830"></div>Tubería de cobre</div>
+  <div class="leg"><div class="leg-line" style="background:rgba(255,255,255,.08);border:1px solid rgba(0,180,255,.3)"></div>Aislamiento poliuretano</div>
+</div>
+ 
+<!-- STEPS -->
+<div style="margin-top:28px">
+  <div class="section-title">Ciclo de Funcionamiento · 7 Etapas</div>
+  <div class="cycle-grid">
+    <div class="step-card"><div class="step-num" style="color:#ff4444">1</div><div class="step-content"><h4>Captación Solar</h4><p>Los <strong>93 colectores MS 1.9 FS</strong> inclinados 15–20° absorben 5.5 kWh/m²/día con eficiencia del 52%.</p></div></div>
+    <div class="step-card"><div class="step-num" style="color:#ff6600">2</div><div class="step-content"><h4>Transporte</h4><p>El fluido caliente circula por <strong>tuberías de cobre</strong> (385 W/m·K) aisladas con poliuretano expandido.</p></div></div>
+    <div class="step-card"><div class="step-num" style="color:#ffb020">3</div><div class="step-content"><h4>Intercambio</h4><p>El <strong>intercambiador de calor</strong> separa los circuitos y transfiere la energía térmica al agua de la alberca.</p></div></div>
+    <div class="step-card"><div class="step-num" style="color:#ff8844">4</div><div class="step-content"><h4>Calentamiento</h4><p>El agua calentada entra a la <strong>alberca</strong>, elevando su temperatura de 10°C a 28°C en 30 días.</p></div></div>
+    <div class="step-card"><div class="step-num" style="color:#22bbee">5</div><div class="step-content"><h4>Retorno Frío</h4><p>El agua más fría retorna al intercambiador completando el <strong>circuito secundario</strong> cerrado.</p></div></div>
+    <div class="step-card"><div class="step-num" style="color:#22bbee">6</div><div class="step-content"><h4>Almacenamiento</h4><p>El <strong>depósito Inox 304</strong> regula el fluido primario. El termostato compara T₁ (colector) vs T₂ (depósito).</p></div></div>
+    <div class="step-card"><div class="step-num" style="color:#00d4ff">7</div><div class="step-content"><h4>Bombeo</h4><p>La <strong>bomba de circulación forzada</strong> se activa con ΔT ≥ 5°C e impulsa el fluido a los colectores.</p></div></div>
+    <div class="step-card" style="border-color:rgba(0,229,160,.2);background:rgba(0,20,15,.5)"><div class="step-num" style="color:#00e5a0">∞</div><div class="step-content"><h4>Ciclo Continuo</h4><p>El ciclo se repite en horas de sol. La <strong>cubierta de polietileno</strong> reduce pérdidas nocturnas.</p></div></div>
+  </div>
+</div>
+ 
+<!-- INFO CARDS -->
+<div class="bottom-grid">
+  <div class="info-card">
+    <h3>Cálculo Energético</h3>
+    <div class="info-row"><span class="lbl">Masa de agua</span><span class="val">600,000 kg</span></div>
+    <div class="info-row"><span class="lbl">Calor específico (Cp)</span><span class="val">4,186 J/kg·°C</span></div>
+    <div class="info-row"><span class="lbl">ΔT objetivo</span><span class="val hot">18°C</span></div>
+    <div class="info-row"><span class="lbl">Energía total (Q)</span><span class="val gold">45,209 MJ</span></div>
+    <div class="info-row"><span class="lbl">Energía diaria</span><span class="val">1,507 MJ/día</span></div>
+    <div class="info-row"><span class="lbl">Por colector</span><span class="val">19.1 MJ/día</span></div>
+  </div>
+  <div class="info-card">
+    <h3>Termostato Diferencial</h3>
+    <div class="info-row"><span class="lbl">Sensor T1</span><span class="val hot">Salida colector</span></div>
+    <div class="info-row"><span class="lbl">Sensor T2</span><span class="val cold">Fondo depósito</span></div>
+    <div class="info-row"><span class="lbl">Activación bomba</span><span class="val hot">ΔT ≥ 5°C</span></div>
+    <div class="info-row"><span class="lbl">Paro de bomba</span><span class="val cold">ΔT &lt; 2°C</span></div>
+    <div class="info-row"><span class="lbl">Función</span><span class="val">Evita pérdida de calor</span></div>
+  </div>
+  <div class="info-card">
+    <h3>Costo · Beneficio</h3>
+    <div class="info-row"><span class="lbl">Inversión inicial</span><span class="val">$700K–$900K MXN</span></div>
+    <div class="info-row"><span class="lbl">Ahorro anual</span><span class="val gold">$72,000 MXN</span></div>
+    <div class="info-row"><span class="lbl">Vida útil</span><span class="val green">20–25 años</span></div>
+    <div class="info-row"><span class="lbl">Beneficio neto</span><span class="val">Año 11</span></div>
+    <div class="info-row"><span class="lbl">CO₂ evitado</span><span class="val green">~2.5 ton/año</span></div>
+  </div>
+</div>
+ 
+<footer>
+  <div class="members">Acosta Medina · Cruz Muñoz · Hurtado Hernández · Olalde Velazquez</div>
+  <div class="tag">603 · Física · Termodinámica · ENP4 UNAM</div>
+</footer>
+ 
+</div>
+</body>
+</html>
