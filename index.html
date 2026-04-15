@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Solar T\u00e9rmico \u00b7 ENP4</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #040d18;
+  --bg2:       #071525;
+  --panel:     #0a1e30;
+  --border:    rgba(0,200,255,0.12);
+  --gold:      #ffb020;
+  --gold2:     #ff7a00;
+  --cyan:      #00d4ff;
+  --cyan2:     #0099cc;
+  --hot:       #ff4444;
+  --hot2:      #ff8800;
+  --cold:      #22bbee;
+  --cold2:     #0066aa;
+  --text:      #cce4f5;
+  --text-dim:  #4a7a9a;
+  --green:     #00e5a0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* \u2500\u2500 BACKGROUND GRID \u2500\u2500 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,180,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,180,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* \u2500\u2500 SCANLINE OVERLAY \u2500\u2500 */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,0.06) 3px,
+    rgba(0,0,0,0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 28px 60px;
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 HERO HEADER \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.hero {
+  padding: 48px 0 32px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 36px;
+  animation: fadeDown 0.8s ease both;
+}
+
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(24px, 4vw, 44px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-sub {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+.hero-right {
+  text-align: right;
+}
+.hero-right .school {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+.hero-right .group {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 KPI STRIP \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@media (max-width: 900px) { .kpi-strip { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 520px) { .kpi-strip { grid-template-columns: repeat(2,1fr); } }
+
+.kpi {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.2s;
+}
+.kpi:hover { border-color: rgba(0,212,255,0.35); transform: translateY(-2px); }
+.kpi::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  opacity: 0.7;
+}
+.kpi-val {
+  font-family: 'Orbitron', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.kpi-unit {
+  font-size: 9px;
+  color: var(--cyan);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.kpi-label {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 DIAGRAM SECTION \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.diagram-shell {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 4px;
+  position: relative;
+  animation: fadeUp 0.8s 0.3s ease both;
+  box-shadow: 0 0 60px rgba(0,100,180,0.15), inset 0 0 40px rgba(0,30,60,0.5);
+}
+
+/* Corner decorations */
+.diagram-shell::before, .diagram-shell::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--cyan);
+  border-style: solid;
+  opacity: 0.5;
+}
+.diagram-shell::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; border-radius: 2px 0 0 0; }
+.diagram-shell::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; border-radius: 0 0 2px 0; }
+
+.diagram-inner {
+  background: linear-gradient(145deg, #060f1e 0%, #030810 100%);
+  border-radius: 11px;
+  padding: 28px 20px 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Subtle radial glow behind diagram */
+.diagram-inner::before {
+  content: '';
+  position: absolute;
+  top: 30%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, rgba(0,100,200,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* \u2500\u2500 PIPE ANIMATIONS \u2500\u2500 */
+@keyframes flowRight { to { stroke-dashoffset: -28; } }
+@keyframes flowLeft  { to { stroke-dashoffset: 28; } }
+@keyframes flowDown  { to { stroke-dashoffset: -28; } }
+@keyframes flowUp    { to { stroke-dashoffset: 28; } }
+
+.pipe-hot  { stroke-dasharray: 10 6; animation: flowRight 0.7s linear infinite; }
+.pipe-cold { stroke-dasharray: 10 6; animation: flowLeft  0.9s linear infinite; }
+.pipe-hot-v  { stroke-dasharray: 10 6; animation: flowDown 0.7s linear infinite; }
+.pipe-cold-v { stroke-dasharray: 10 6; animation: flowUp   0.9s linear infinite; }
+
+@keyframes sunPulse {
+  0%,100% { r: 30; opacity: 0.9; }
+  50% { r: 33; opacity: 1; }
+}
+@keyframes glowPulse {
+  0%,100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+@keyframes spinImpeller {
+  to { transform: rotate(360deg); }
+}
+@keyframes stepFade {
+  0%,100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.sun-core { animation: sunPulse 2.5s ease-in-out infinite; }
+.sun-glow  { animation: glowPulse 2.5s ease-in-out infinite; }
+
+.impeller {
+  transform-origin: 490px 400px;
+  animation: spinImpeller 1.2s linear infinite;
+}
+
+/* Main SVG */
+.main-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 CYCLE STEPS \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.cycle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 28px;
+  animation: fadeUp 0.8s 0.45s ease both;
+}
+@media (max-width: 800px) { .cycle-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 480px) { .cycle-grid { grid-template-columns: 1fr; } }
+
+.step-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  transition: border-color 0.25s, background 0.25s;
+}
+.step-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  background: rgba(10,40,65,0.9);
+}
+.step-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  min-width: 28px;
+}
+.step-content h4 {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 5px;
+}
+.step-content p {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.step-content p strong { color: var(--text); }
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 BOTTOM GRID \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+  animation: fadeUp 0.8s 0.6s ease both;
+}
+@media (max-width: 760px) { .bottom-grid { grid-template-columns: 1fr; } }
+
+.info-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+.info-card h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 12px;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row .lbl { color: var(--text-dim); }
+.info-row .val { color: var(--text); font-weight: 500; font-family: 'Orbitron', monospace; font-size: 11px; }
+.info-row .val.hot { color: var(--hot); }
+.info-row .val.cold { color: var(--cold); }
+.info-row .val.gold { color: var(--gold); }
+.info-row .val.green { color: var(--green); }
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 LEGEND BAR \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+.legend-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.leg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.leg-line {
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 FOOTER \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+footer {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  animation: fadeUp 0.8s 0.7s ease both;
+}
+footer .members {
+  font-family: 'Orbitron', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+footer .tag {
+  font-family: 'Orbitron', monospace;
+  color: var(--cyan);
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- \u2550\u2550 HEADER \u2550\u2550 -->
+  <header class="hero">
+    <div>
+      <div class="hero-badge">Sistema Activo \u00b7 Circulaci\u00f3n Forzada</div>
+      <h1>Sistema T\u00e9rmico<br><em>Solar para Alberca</em></h1>
+      <p class="hero-sub">Termodin\u00e1mica aplicada \u00b7 Calentador solar de placa plana \u00b7 Ciudad de M\u00e9xico</p>
+    </div>
+    <div class="hero-right">
+      <div class="school">ENP PLANTEL 4 \u00b7 UNAM</div>
+      <div class="group">603 \u00b7 F\u00edsica</div>
+    </div>
+  </header>
+
+  <!-- \u2550\u2550 KPI STRIP \u2550\u2550 -->
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-val">93</div>
+      <div class="kpi-unit">Colectores</div>
+      <div class="kpi-label">MS 1.9 FS \u00b7 1.91 m\u00b2 c/u</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">178</div>
+      <div class="kpi-unit">m\u00b2 captaci\u00f3n</div>
+      <div class="kpi-label">\u00c1rea total efectiva</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">45,209</div>
+      <div class="kpi-unit">MJ totales</div>
+      <div class="kpi-label">Q = m\u00b7Cp\u00b7\u0394T</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">18\u00b0C</div>
+      <div class="kpi-unit">\u0394T</div>
+      <div class="kpi-label">De 10\u00b0C a 28\u00b0C</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">52%</div>
+      <div class="kpi-unit">Eficiencia</div>
+      <div class="kpi-label">~10 MJ/m\u00b2/d\u00eda</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">5.5</div>
+      <div class="kpi-unit">kWh/m\u00b2/d\u00eda</div>
+      <div class="kpi-label">Irradiaci\u00f3n CDMX</div>
+    </div>
+  </div>
+
+  <!-- \u2550\u2550 DIAGRAM \u2550\u2550 -->
+  <div class="section-title">Diagrama del Sistema \u00b7 Ciclo Completo</div>
+
+  <div class="diagram-shell">
+    <div class="diagram-inner">
+      <svg class="main-svg" viewBox="0 0 1100 560" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Gradients -->
+          <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#020a14"/>
+            <stop offset="100%" stop-color="#040d1c"/>
+          </linearGradient>
+          <radialGradient id="gSun" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"  stop-color="#ffe566"/>
+            <stop offset="45%" stop-color="#ffb020" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#ff6000" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="gCollector" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a4a6a"/>
+            <stop offset="100%" stop-color="#071828"/>
+          </linearGradient>
+          <linearGradient id="gTank" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a6580"/>
+            <stop offset="100%" stop-color="#0f2535"/>
+          </linearGradient>
+          <linearGradient id="gPump" cx="40%" cy="30%" r="60%" id="gPump">
+            <stop offset="0%" stop-color="#507090"/>
+            <stop offset="100%" stop-color="#152535"/>
+          </linearGradient>
+          <radialGradient id="gPumpR" cx="40%" cy="30%" r="60%">
+            <stop offset="0%" stop-color="#507090"/>
+            <stop offset="100%" stop-color="#152535"/>
+          </radialGradient>
+          <linearGradient id="gHex" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2a4a5a"/>
+            <stop offset="100%" stop-color="#0a1e2e"/>
+          </linearGradient>
+          <linearGradient id="gPool" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0d3f5f"/>
+            <stop offset="100%" stop-color="#061828"/>
+          </linearGradient>
+          <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a7aaa"/>
+            <stop offset="100%" stop-color="#0d4a70"/>
+          </linearGradient>
+          <linearGradient id="gThermostat" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3045"/>
+            <stop offset="100%" stop-color="#0a1825"/>
+          </linearGradient>
+          <!-- Glows -->
+          <filter id="fGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="fSoftGlow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="10" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="fSmall" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="2.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <!-- Markers -->
+          <marker id="mHot" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <polygon points="0,0 7,3.5 0,7" fill="#ff4444"/>
+          </marker>
+          <marker id="mCold" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <polygon points="0,0 7,3.5 0,7" fill="#22bbee"/>
+          </marker>
+          <marker id="mHotUp" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto">
+            <polygon points="0,7 3.5,0 7,7" fill="#ff4444"/>
+          </marker>
+          <marker id="mColdUp" markerWidth="7" markerHeight="7" refX="3.5" refY="2" orient="auto">
+            <polygon points="0,7 3.5,0 7,7" fill="#22bbee"/>
+          </marker>
+        </defs>
+
+        <!-- BG -->
+        <rect width="1100" height="560" fill="url(#gSky)" rx="10"/>
+
+        <!-- Subtle grid -->
+        <g opacity="0.04">
+          <line x1="0" y1="140" x2="1100" y2="140" stroke="#fff" stroke-width="1"/>
+          <line x1="0" y1="280" x2="1100" y2="280" stroke="#fff" stroke-width="1"/>
+          <line x1="0" y1="420" x2="1100" y2="420" stroke="#fff" stroke-width="1"/>
+          <line x1="220" y1="0" x2="220" y2="560" stroke="#fff" stroke-width="1"/>
+          <line x1="440" y1="0" x2="440" y2="560" stroke="#fff" stroke-width="1"/>
+          <line x1="660" y1="0" x2="660" y2="560" stroke="#fff" stroke-width="1"/>
+          <line x1="880" y1="0" x2="880" y2="560" stroke="#fff" stroke-width="1"/>
+        </g>
+
+        <!-- \u2550\u2550 SUN \u2550\u2550 -->
+        <g transform="translate(990,75)">
+          <circle class="sun-glow" r="65" fill="url(#gSun)" opacity="0.4"/>
+          <circle class="sun-glow" r="45" fill="url(#gSun)" opacity="0.5"/>
+          <circle class="sun-core" cx="0" cy="0" r="30" fill="#ffe566" filter="url(#fSoftGlow)"/>
+          <!-- Rays -->
+          <g opacity="0.7">
+            <line x1="0" y1="-42" x2="0" y2="-52" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="0" y1="42" x2="0" y2="52" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-42" y1="0" x2="-52" y2="0" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="42" y1="0" x2="52" y2="0" stroke="#ffb020" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="-29" y1="-29" x2="-37" y2="-37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+            <line x1="29" y1="-29" x2="37" y2="-37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+            <line x1="-29" y1="29" x2="-37" y2="37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+            <line x1="29" y1="29" x2="37" y2="37" stroke="#ffb020" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <text y="55" text-anchor="middle" font-family="Orbitron,monospace" font-size="9" fill="#ffb020" letter-spacing="1" opacity="0.8">5.5 kWh/m\u00b2/d\u00eda</text>
+        </g>
+
+        <!-- Radiation arrows -->
+        <line x1="956" y1="92" x2="770" y2="115" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.5"/>
+        <line x1="950" y1="100" x2="700" y2="118" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.38"/>
+        <line x1="942" y1="110" x2="620" y2="122" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="8,5" opacity="0.28"/>
+        <text x="830" y="100" font-family="DM Sans,sans-serif" font-size="9" fill="#ffb020" opacity="0.6" transform="rotate(-5,830,100)">Radiaci\u00f3n Solar \u2192</text>
+
+        <!-- \u2550\u2550 ROOF LINE \u2550\u2550 -->
+        <rect x="30" y="155" width="1040" height="14" fill="#0d2035" rx="2"/>
+        <rect x="30" y="154" width="1040" height="4" fill="#1a3550" rx="1"/>
+        <text x="40" y="148" font-family="Orbitron,monospace" font-size="9" fill="#4a7a9a" letter-spacing="2">AZOTEA \u00b7 ENP4</text>
+
+        <!-- \u2550\u2550 SOLAR COLLECTORS BANK \u2550\u2550 -->
+        <!-- Support rail -->
+        <rect x="240" y="130" width="700" height="5" rx="2" fill="#1a3a55"/>
+        <!-- Support legs -->
+        <line x1="270" y1="135" x2="270" y2="155" stroke="#1a3a55" stroke-width="3"/>
+        <line x1="480" y1="135" x2="480" y2="155" stroke="#1a3a55" stroke-width="3"/>
+        <line x1="700" y1="135" x2="700" y2="155" stroke="#1a3a55" stroke-width="3"/>
+        <line x1="910" y1="135" x2="910" y2="155" stroke="#1a3a55" stroke-width="3"/>
+
+        <!-- 7 Collector panels (tilted illusion via skew) -->
+        <g transform="translate(245,48)">
+          <!-- Each panel: rect + internal tubes -->
+          <!-- Panel 1 -->
+          <g transform="skewX(-8)">
+            <rect x="0" y="0" width="82" height="78" rx="4" fill="url(#gCollector)" stroke="#1e6090" stroke-width="1.2"/>
+            <rect x="3" y="3" width="76" height="72" rx="2" fill="none" stroke="#0077aa" stroke-width="0.6" opacity="0.5"/>
+            <line x1="10" y1="0" x2="10" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <line x1="20" y1="0" x2="20" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <line x1="30" y1="0" x2="30" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <line x1="40" y1="0" x2="40" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <line x1="50" y1="0" x2="50" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <line x1="60" y1="0" x2="60" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <line x1="70" y1="0" x2="70" y2="78" stroke="#0a4a6a" stroke-width="1" opacity="0.7"/>
+            <!-- Absorber sheen -->
+            <rect x="3" y="3" width="76" height="18" rx="1" fill="#1a88bb" opacity="0.15"/>
